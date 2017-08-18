@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from cnjtools.extrator import ExtratorCNJ
+from cnjfacil.extrator import ExtratorCNJ
 
 
 class ExtratorTestCase(TestCase):
