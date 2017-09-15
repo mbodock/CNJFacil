@@ -10,6 +10,11 @@ class ExtratorTestCase(TestCase):
         extrator = ExtratorCNJ(texto)
         self.assertEqual(extrator.cnjs, {'0053087-35.2013.8.13.0693'})
 
+    def test_encontra_cnj_sem_char_entre_justica_tribunal(self):
+        texto = 'aqui está o cnj 0053087-35.2013.813.0693 veja bem'
+        extrator = ExtratorCNJ(texto)
+        self.assertEqual(extrator.cnjs, {'0053087-35.2013.8.13.0693'})
+
     def test_encontra_multiplos_cnjs(self):
         texto = '''
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod

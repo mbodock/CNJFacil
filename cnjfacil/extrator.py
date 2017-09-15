@@ -42,7 +42,7 @@ class ExtratorCNJ:
     def _valida_cnj(self, cnj):
         if self.FORMATO_CNJ.match(cnj):
             return
-        elif '-' not in cnj or '.' not in cnj:
+        elif len(re.sub('[- .]', '', cnj)) >= 14:
             raise CNJPontuacaoIncorreta
         else:
             raise CNJIncorrigivel
