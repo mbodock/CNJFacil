@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 from unittest import TestCase
 
 from cnjfacil.extrator import ExtratorCNJ
