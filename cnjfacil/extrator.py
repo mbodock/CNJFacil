@@ -27,11 +27,12 @@ class ExtratorCNJ:
     def __init__(self, texto, maximo_tentativas=10):
         self.texto = texto
         self._buscador = self.REGEX
-        self._cnjs = set()
+        self._cnjs = []
         self.maximo_tentativas = maximo_tentativas
 
     @property
     def cnjs(self):
+        """Obtem a lista de cnjs encontrados no texto"""
         if not self._cnjs:
             self._busca_cnjs()
 
@@ -53,9 +54,11 @@ class ExtratorCNJ:
         for cnj in cnjs:
             cnj = re.sub('\s', '', cnj, flags=re.M | re.I)
             try:
-                self._cnjs.add(self._corrige_cnj(cnj))
+                cnj_corrigido = self._corrige_cnj(cnj)
             except CNJIncorrigivel:
-                pass
+                continue
+            if cnj_corrigido not in self._cnjs:
+                self._cnjs.append(cnj_corrigido)
 
     def _corrige_cnj(self, cnj, tentativas=0):
         if tentativas > self.maximo_tentativas:
