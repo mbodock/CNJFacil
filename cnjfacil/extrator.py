@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+import datetime
 import re
 
 from .exceptions import CNJIncorrigivel, CNJPontuacaoIncorreta
@@ -35,8 +36,15 @@ class ExtratorCNJ:
         """Obtem a lista de cnjs encontrados no texto"""
         if not self._cnjs:
             self._busca_cnjs()
+        self._valida_ano_do_cnj()
 
         return self._cnjs
+
+    def _valida_ano_do_cnj(self):
+        ano = datetime.datetime.utcnow().year
+        for cnj in self._cnjs:
+            if int(cnj[11::][:4]) > ano:
+                self._cnjs.remove(cnj)
 
     def _busca_cnjs(self):
         cnjs = self._buscador.findall(self.texto)

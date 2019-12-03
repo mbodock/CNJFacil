@@ -56,10 +56,21 @@ class ExtratorTestCase(TestCase):
         extrator = ExtratorCNJ(texto, maximo_tentativas=0)
         self.assertEqual(extrator.cnjs, list())
 
-    def test_cnjs_repetidos_aprecem_apenas_uma_vez(self):
+    def test_cnjs_repetidos_aparecem_apenas_uma_vez(self):
         texto = '''0053087-35.2013.8.13.0693 texto
                 0516710-11.2017.8.13.0000 e 0516710-11.2017.8.13.0000
                 '''
         extrator = ExtratorCNJ(texto)
         self.assertEqual(extrator.cnjs, ['0053087-35.2013.8.13.0693',
                                          '0516710-11.2017.8.13.0000'])
+
+    def test_nao_adiciona_valores_com_ano_do_cnj_invalido(self):
+        texto = '''
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+        tempor invidunt ut labore et 0053087-35.2013.8.13.0693dolore magna
+        aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
+        dolores et ea rebum. 0000020-03.8100.0.04.2970Stet clita kasd
+        gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+        '''
+        extrator = ExtratorCNJ(texto)
+        self.assertEqual(extrator.cnjs, ['0053087-35.2013.8.13.0693'])
