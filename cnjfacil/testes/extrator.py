@@ -71,6 +71,8 @@ class ExtratorTestCase(TestCase):
         aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
         dolores et ea rebum. 0000020-03.8100.0.04.2970Stet clita kasd
         gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+        tempor invidunt ut labore et 0064198-46.0013.9.24.1704dolore magna
         '''
         extrator = ExtratorCNJ(texto)
         self.assertEqual(extrator.cnjs, ['0053087-35.2013.8.13.0693'])
