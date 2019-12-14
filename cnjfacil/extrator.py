@@ -43,12 +43,10 @@ class ExtratorCNJ:
     def _valida_ano_do_cnj(self):
         limite_inferior = 1895  # Ano do primeiro processo ajuizado do Brasil
         limite_superior = datetime.datetime.utcnow().year
-        cnjs_invalidos = filter(
-            lambda cnj: int(cnj[11::][:4]) > limite_superior or int(cnj[11::][:4]) < limite_inferior,
+        self._cnjs = filter(
+            lambda cnj: int(cnj[11::][:4]) < limite_superior and int(cnj[11::][:4]) > limite_inferior,
             self._cnjs
         )
-        for cnj in cnjs_invalidos:
-            self._cnjs.remove(cnj)
 
     def _busca_cnjs(self):
         cnjs = self._buscador.findall(self.texto)
