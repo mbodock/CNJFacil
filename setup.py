@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='CNJFacil',
-    version='0.1.5',
+    version='0.1.6',
     author='Marcus Bodock',
     author_email='mbodock@gmail.com',
     packages=['cnjfacil'],
