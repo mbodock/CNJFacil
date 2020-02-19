@@ -15,6 +15,8 @@ class ExtratorCNJ:
         Texto (str): Texto em que os CNJs serão encontrados
     """
 
+    LOOKBEHIND = r'(?:(?<=\A)|(?<=[\sA-ü:ºª°.\-]))'
+
     ORDEM = r'\d\s*\d?\s*\d?\s*\d?\s*\d?\s*\d?\s*\d?\s*'
     VERIFICADOR = r'[- .]?\d\s*\d\s*'
     ANO = r'\.?\d\s*\d\s*\d\s*\d\s*'
@@ -22,7 +24,7 @@ class ExtratorCNJ:
     TRIBUNAL = r'\.?\d\s*\d\s*'
     ORIGEM = r'\.?\d\s*\d\s*\d\s*\d'
     REGEX = re.compile(''.join(
-        [ORDEM, VERIFICADOR, ANO, DIGITO, TRIBUNAL, ORIGEM]))
+        [LOOKBEHIND, ORDEM, VERIFICADOR, ANO, DIGITO, TRIBUNAL, ORIGEM]))
     FORMATO_CNJ = re.compile(r'(\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4})')
 
     def __init__(self, texto, maximo_tentativas=10):
