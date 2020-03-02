@@ -15,6 +15,8 @@ class ExtratorCNJ:
         Texto (str): Texto em que os CNJs serão encontrados
     """
 
+    LOOKBEHIND = r'(?:(?<=\A)|(?<=[\sA-ü:ºª°.\-]))'
+
     ORDEM = r'\d\s*\d?\s*\d?\s*\d?\s*\d?\s*\d?\s*\d?\s*'
     VERIFICADOR = r'[- .]?\d\s*\d\s*'
     ANO = r'\.?\d\s*\d\s*\d\s*\d\s*'
@@ -22,7 +24,7 @@ class ExtratorCNJ:
     TRIBUNAL = r'\.?\d\s*\d\s*'
     ORIGEM = r'\.?\d\s*\d\s*\d\s*\d'
     REGEX = re.compile(''.join(
-        [ORDEM, VERIFICADOR, ANO, DIGITO, TRIBUNAL, ORIGEM]))
+        [LOOKBEHIND, ORDEM, VERIFICADOR, ANO, DIGITO, TRIBUNAL, ORIGEM]))
     FORMATO_CNJ = re.compile(r'(\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4})')
 
     def __init__(self, texto, maximo_tentativas=10):
@@ -42,11 +44,12 @@ class ExtratorCNJ:
 
     def _valida_ano_do_cnj(self):
         limite_inferior = 1895  # Ano do primeiro processo ajuizado do Brasil
-        limite_superior = datetime.datetime.utcnow().year
+        limite_superior = datetime.datetime.utcnow().year + 2  # Dois anos na frente
         self._cnjs = filter(
-            lambda cnj: int(cnj[11::][:4]) < limite_superior and int(cnj[11::][:4]) > limite_inferior,
+            lambda cnj: int(cnj[11::][:4]) <= limite_superior and int(cnj[11::][:4]) >= limite_inferior,
             self._cnjs
         )
+        self._cnjs = list(self._cnjs)
 
     def _busca_cnjs(self):
         cnjs = self._buscador.findall(self.texto)
