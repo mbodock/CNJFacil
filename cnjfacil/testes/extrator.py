@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+import datetime
 from unittest import TestCase
 
 from cnjfacil.extrator import ExtratorCNJ
@@ -72,3 +73,15 @@ class ExtratorTestCase(TestCase):
         '''
         extrator = ExtratorCNJ(texto)
         self.assertEqual(extrator.cnjs, ['0053087-35.2013.8.13.0693'])
+
+    def test_valida_cnj_ano_atual(self):
+        ano = datetime.datetime.utcnow().year
+        cnj = '0053087-35.{}.8.13.0693'.format(ano)
+        extrator = ExtratorCNJ(cnj)
+        self.assertEqual(extrator.cnjs, [cnj])
+
+    def test_valida_cnj_ano_no_futuro_proximo(self):
+        ano_proximo = datetime.datetime.utcnow().year + 2
+        cnj = '0053087-35.{}.8.13.0693'.format(ano_proximo)
+        extrator = ExtratorCNJ(cnj)
+        self.assertEqual(extrator.cnjs, [cnj])
