@@ -85,3 +85,17 @@ class ExtratorTestCase(TestCase):
         cnj = '0053087-35.{}.8.13.0693'.format(ano_proximo)
         extrator = ExtratorCNJ(cnj)
         self.assertEqual(extrator.cnjs, [cnj])
+
+    def test_cnjs_extracao_com_lookbehind(self):
+        texto = '*** DGJUR - SECRETARIA DA 10ª CÂMARA CÍVEL *** ATO ORDINATÓRIO 010. AGRAVO DE'\
+            'INSTRUMENTO - CÍVEL 0077777-12.2020.8.19.0000    R$       40552                     '\
+            '                                                            Rio de Janeiro 24 de '\
+            'janeiro de 2020'\
+            'nº0011111-12.2020.8.19.0000 nª0022222-12.2020.8.19.0000 n°0033333-12.2020.8.19.0000'
+        extrator = ExtratorCNJ(texto)
+        self.assertEqual(set(extrator.cnjs), set([
+            '0022222-12.2020.8.19.0000',
+            '0011111-12.2020.8.19.0000',
+            '0077777-12.2020.8.19.0000',
+            '0033333-12.2020.8.19.0000',
+        ]))
