@@ -51,6 +51,18 @@ class ExtratorTestCase(TestCase):
         extrator = ExtratorCNJ(texto)
         self.assertEqual(extrator.cnjs, ['0053087-35.2013.8.13.0693'])
 
+    def test_cnj_com_XX(self):
+        """ O TRT passou a disponibilizar números CNJ com XX no dígito verificado
+        por questões de privacidade.
+        """
+        texto = '''
+           AP 0021162XX.2019.5.04.0025 Seção Especializada
+
+           AP 0077777xx.2019.5.04.0088 Seção Especializada
+        '''
+        extrator = ExtratorCNJ(texto)
+        self.assertEqual(extrator.cnjs, ['0021162-XX.2019.5.04.0025', '0077777-xx.2019.5.04.0088'])
+
     def test_cnj_incorrigivel(self):
         texto = '''aqui está o cnj 530873
         520138.13.0693 veja bem'''
