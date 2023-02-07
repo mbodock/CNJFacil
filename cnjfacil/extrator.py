@@ -18,14 +18,14 @@ class ExtratorCNJ:
     LOOKBEHIND = r'(?:(?<=\A)|(?<=[\sA-ü:ºª°.\-]))'
 
     ORDEM = r'\d\s*\d?\s*\d?\s*\d?\s*\d?\s*\d?\s*\d?\s*'
-    VERIFICADOR = r'[- .]?\d\s*\d\s*'
+    VERIFICADOR = r'[- .]?[\dX]\s*[\dX]\s*'
     ANO = r'\.?\d\s*\d\s*\d\s*\d\s*'
     DIGITO = r'\.?\d\s*'
     TRIBUNAL = r'\.?\d\s*\d\s*'
     ORIGEM = r'\.?\d\s*\d\s*\d\s*\d'
     REGEX = re.compile(''.join(
-        [LOOKBEHIND, ORDEM, VERIFICADOR, ANO, DIGITO, TRIBUNAL, ORIGEM]))
-    FORMATO_CNJ = re.compile(r'(\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4})')
+        [LOOKBEHIND, ORDEM, VERIFICADOR, ANO, DIGITO, TRIBUNAL, ORIGEM]), re.IGNORECASE)
+    FORMATO_CNJ = re.compile(r'(\d{7}-[\dX]{2}\.\d{4}\.\d\.\d{2}\.\d{4})', re.IGNORECASE)
 
     def __init__(self, texto, maximo_tentativas=10):
         self.texto = texto
